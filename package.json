@@ -1,0 +1,34 @@
+{
+  "name": "adress_book",
+  "version": "1.0.0",
+  "author": "",
+  "description": "Creating adress book using Cycle.js and Model-View-Intent pattern",
+  "main": "index.js",
+  "scripts": {
+    "build-debug": "browserify --debug src/app.js -t babelify --outfile js/app.js",
+    "uglify": "uglifyjs js/app.js -o js/app.min.js",
+    "build": "npm run build-debug && npm run uglify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jurStv/adressBook_MVI.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jurStv/adressBook_MVI/issues"
+  },
+  "homepage": "https://github.com/jurStv/adressBook_MVI#readme",
+  "devDependencies": {
+    "@cycle/core": "3.1.x",
+    "@cycle/dom": "5.0.x",
+    "babel": "^5.1.13",
+    "babelify": "6.2.x",
+    "browserify": "^11.0.1",
+    "cycle-time-travel": "^0.1.2",
+    "uglify-js": "2.4.24"
+  },
+  "dependencies": {
+    "cuid": "1.3.8",
+    "ramda": "^0.17.1"
+  }
+}

@@ -1,0 +1,35 @@
+a, a:hover {
+	color: #333;
+}
+.content {
+	width: 940px;
+	padding: 25px;
+	border-radius: 10px;
+	margin: 0 auto;
+}
+.input-group {
+		margin-bottom: 10px;
+}
+#button {
+		width: 200px;
+}
+input.error {
+  color: #b94a48;
+  border-color: #b94a48;
+}
+input.error:focus,
+textarea.error:focus {
+  border-color: #953b39;
+  -webkit-box-shadow: 0 0 6px #d59392;
+     -moz-box-shadow: 0 0 6px #d59392;
+          box-shadow: 0 0 6px #d59392;
+}
+.glyphicon.glyphicon-pencil.edit:hover,
+.glyphicon.glyphicon-remove.delete:hover {
+	cursor: pointer;
+}
+.gh-logo {
+	float: right;
+	margin-top: 10px;
+	margin-right: 10px;
+}
