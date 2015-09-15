@@ -1,2 +1,2 @@
-# adressBook_MVI
-Creating adress book using Cycle.js and Model-View-Intent pattern
+# Adress Book
+Creating adress book using Cycle.js, trying Model-View-Intent
