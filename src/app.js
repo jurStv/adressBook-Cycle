@@ -1,9 +1,9 @@
 import {run, Rx} from "@cycle/core";
 import {makeDOMDriver} from '@cycle/dom';
-import adresses from "./components/adresses";
+import adressApp from "./components/index";
 import Drivers from "./drivers";
 
-const main = adresses;
+const main = adressApp;
 
 run( main, {
 	DOM: makeDOMDriver("#app"),
