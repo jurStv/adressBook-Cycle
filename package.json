@@ -1,6 +1,6 @@
 {
   "name": "adress_book",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "author": "jurStv",
   "description": "Creating adress book using Cycle.js and Model-View-Intent pattern",
   "main": "index.js",
