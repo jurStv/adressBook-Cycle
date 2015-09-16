@@ -11,17 +11,17 @@ import {deserialize, deserializeWithDefaults} from "./helpers/local-storage-sour
 function main( {DOM, localStorageSink, localStorageSource} ) {
 	var filter = filterInput( DOM );
 
-	var startList$ = deserializeWithDefaults( localStorageSource ).shareReplay(1);
-	var sinkList$ = deserialize( localStorageSink );
-	var list$ = startList$.concat( sinkList$ );
+	var sourceStore$ = deserializeWithDefaults( localStorageSource ).shareReplay(1);
+	var sinkStore$ = deserialize( localStorageSink );
+	var store$ = sourceStore$.concat( sinkStore$ );
 
-	var table = tableBody( DOM, list$, filter.input$ );
+	var table = tableBody( DOM, store$, filter.input$ );
 	var mainForm = adressForm( DOM, table.edit$ );
 
 	var removeAfterEditing$ =	table.edit$.sample( mainForm.submit$ );
 	var delete$ = removeAfterEditing$.merge( table.delete$ );
 
-	var storage$ = model( startList$, delete$, mainForm.submit$ );
+	var storage$ = model( sourceStore$, delete$, mainForm.submit$ );
 	var vtree$ = view( filter.DOM, mainForm.DOM, table.DOM );
 	return {
     DOM: vtree$,

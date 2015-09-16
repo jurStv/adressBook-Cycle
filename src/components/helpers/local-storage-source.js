@@ -1,5 +1,6 @@
 import containsWith from "ramda/src/containsWith";
 import append from "ramda/src/append";
+import compose from "ramda/src/compose";
 
 const addDefaultUniq = (defItem, key, items) => {
   return  ( containsWith( (a,b) => {return a[key] === b[key]}, defItem, items  ) )
@@ -17,10 +18,10 @@ const mergeWithDefaultAdresses = adresses => {
 function deserialize(localStorageValue$) {
   return localStorageValue$
     .map(safeJSONParse)
+    .map(Object.freeze)
 }
 function deserializeWithDefaults(localStorageValue$) {
   return localStorageValue$
-    .map(safeJSONParse)
-    .map(mergeWithDefaultAdresses)
+    .map( compose( Object.freeze , mergeWithDefaultAdresses, safeJSONParse ) )
 }
 export default {deserialize, deserializeWithDefaults};

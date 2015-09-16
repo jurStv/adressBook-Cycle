@@ -1,10 +1,11 @@
 import {Rx} 						from "@cycle/core";
-import tableItem 				from "./table-row/index";
+import tableRow 				from "./table-row/index";
 import findAnyMatching	from "./helpers/findAnyMatching";
 
-export default function model( DOM, list$, filterInput$ = new Rx.Subject() ){
-  var ti$ = Rx.Observable.combineLatest( list$, filterInput$.startWith(""), ( {list} , str) => {
- 	 return list.filter( findAnyMatching( str ) ).map( adress => tableItem( DOM,  adress) );
+export default function model( DOM, store$, filterInput$ = new Rx.Subject() ){
+  var ti$ = Rx.Observable.combineLatest( store$, filterInput$.startWith(""), ( store , str) => {
+    var list = Object.assign( {}, store ).list;
+ 	 return list.filter( findAnyMatching(str) ).map( adress => tableRow( DOM,  adress) );
   } );
   var edit$ = ti$.flatMapLatest( (tis) =>
   		tis.map( (ti) => ti.edit$ )
