@@ -1,18 +1,15 @@
+import last from "ramda/src/last";
 export default function model(sourceStore$, delete$, submit$ ){
-
   return sourceStore$.flatMap( ( storeImm ) => {
-
-    var listMutable = Object.assign( {}, storeImm ).list;
-
-		let deleteFromList$ = delete$.map( (actAdr) => {
-			let index = listMutable.findIndex( (adr) => adr._id === actAdr._id );
-			(index !== -1) ? listMutable.splice( index, 1 ) : void 0;
-			return  {list: listMutable} ;
-		} );
-		let pushToList$ = submit$.map( (actAdr) => {
-			listMutable.push(actAdr);
-			return  {list: listMutable} ;
-		} );
-		return  deleteFromList$.merge(pushToList$) ;
+    let mapMutable = storeImm.list.reduce( (acc, cur) => acc.set(cur._id, cur) ,new Map());
+		let deleteFromList$ = delete$.map( actAdr =>
+			   mapMutable.delete( actAdr._id ) ?
+          {list: [...mapMutable].map( last )} : null 
+		 );
+		let pushToList$ = submit$.map( actAdr =>
+			   mapMutable.set(actAdr._id, actAdr) ?
+          {list: [...mapMutable].map( last )} : null
+		 );
+		return  deleteFromList$.merge(pushToList$).filter( x => !!x ) ;
 	} );
 }
