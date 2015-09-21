@@ -12,13 +12,14 @@ function main( {DOM, localStorageSink, localStorageSource} ) {
 	var filter = filterInput( DOM );
 
 	var sourceStore$ = deserializeWithDefaults( localStorageSource ).shareReplay(1);
-	var sinkStore$ = deserialize( localStorageSink );
+	var sinkStore$ = deserialize( localStorageSink ).publish().refCount();
 	var store$ = sourceStore$.concat( sinkStore$ );
 
 	var table = tableBody( DOM, store$, filter.input$ );
-	var mainForm = adressForm( DOM, table.edit$ );
+	var edit$ = table.edit$.shareReplay(1);
+	var mainForm = adressForm( DOM, edit$ );
 
-	var removeAfterEditing$ =	table.edit$.sample( mainForm.submit$ );
+	var removeAfterEditing$ =	edit$.sample( mainForm.submit$ );
 	var delete$ = removeAfterEditing$.merge( table.delete$ );
 
 	var storage$ = model( sourceStore$, delete$, mainForm.submit$ );

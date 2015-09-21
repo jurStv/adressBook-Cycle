@@ -4,12 +4,11 @@ export default function model(sourceStore$, delete$, submit$ ){
     let mapMutable = storeImm.list.reduce( (acc, cur) => acc.set(cur._id, cur) ,new Map());
 		let deleteFromList$ = delete$.map( actAdr =>
 			   mapMutable.delete( actAdr._id ) ?
-          {list: [...mapMutable].map( last )} : null 
-		 );
+          [...mapMutable].map( last ) : null
+		 ).filter( x => !!x );
 		let pushToList$ = submit$.map( actAdr =>
-			   mapMutable.set(actAdr._id, actAdr) ?
-          {list: [...mapMutable].map( last )} : null
+			  [...mapMutable.set(actAdr._id, actAdr)].map( last )
 		 );
-		return  deleteFromList$.merge(pushToList$).filter( x => !!x ) ;
+		return  deleteFromList$.merge(pushToList$).map( x => ({list: x}) ).throttle(100);
 	} );
 }

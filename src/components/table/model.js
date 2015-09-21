@@ -11,7 +11,7 @@ export default function model( DOM, store$, filterInput$ = Rx.Observale.never() 
     let list = Object.assign( {}, store ).list;
  	  return list.filter( findAnyMatching(str) ).map( adress => tableRow( DOM,  adress) );
   } );
-  var edit$ = grabAndJoinActions("edit$", ti$).share();
+  var edit$ = grabAndJoinActions("edit$", ti$);
  	var delete$ = grabAndJoinActions("delete$", ti$);
   return {  ti$, edit$, delete$  };
 }

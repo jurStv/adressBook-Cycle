@@ -6,7 +6,7 @@ export default function model( submit$ ) {
 			({email, firstname, lastname}) => ({email: email.value,
 					firstname: firstname.value,
 					lastname: lastname.value})
-		).share();
+		).shareReplay(1);
 	var valid$ = adres$.filter( v.isFormValidBool )
 		.map( (adr) => {
 			adr._id = cuid();
