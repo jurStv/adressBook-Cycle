@@ -2,6 +2,19 @@ import containsWith from "ramda/src/containsWith";
 import append from "ramda/src/append";
 import compose from "ramda/src/compose";
 
+function deepFreeze(o) {
+  var prop, propKey;
+  Object.freeze(o);
+  for (propKey in o) {
+    prop = o[propKey];
+    if (!o.hasOwnProperty(propKey) || !(typeof prop === 'object') || Object.isFrozen(prop)) {
+      continue;
+    }
+    deepFreeze(prop);
+  }
+  return o;
+}
+
 const addDefaultUniq = (defItem, key, items) => {
   return  ( containsWith( (a,b) => {return a[key] === b[key]}, defItem, items  ) )
   ?
@@ -18,10 +31,10 @@ const mergeWithDefaultAdresses = adresses => {
 function deserialize(localStorageValue$) {
   return localStorageValue$
     .map(safeJSONParse)
-    .map(Object.freeze)
+    .map(deepFreeze)
 }
 function deserializeWithDefaults(localStorageValue$) {
   return localStorageValue$
-    .map( compose( Object.freeze , mergeWithDefaultAdresses, safeJSONParse ) )
+    .map( compose( deepFreeze , mergeWithDefaultAdresses, safeJSONParse ) )
 }
 export default {deserialize, deserializeWithDefaults};
